@@ -14,4 +14,16 @@
 
 echo "Hello";
 
-$conn = new PDO();
+$conn = new PDO(); //TODO add db info
+
+$sql = "CREATE TABLE USER "; // TODO add sql code
+
+
+
+
+$stmt = $conn->exec($sql);
+
+$sql = "SELECT * FROM TABLE USER";
+
+$stmt = $conn->exec($sql);
+
