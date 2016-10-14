@@ -13,3 +13,5 @@
  */
 
 echo "Hello";
+
+$conn = new PDO();
