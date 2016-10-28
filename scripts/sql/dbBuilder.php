@@ -13,11 +13,11 @@
 $host="localhost"; // Establishing the host
 
 $root="root"; // Establishing the DB root user and the password
-$root_password="rootpass";
+$root_password="cinder";
 
 $user='root'; // Establishing the user and their login password
-$pass='';
-$db="EducationDB"; // Name of the database
+$pass='cinder';
+$db="educationdb"; // Name of the database
 
 $conn = new PDO("mysql:host=$host", $root, $root_password); // New PDO connection
 
@@ -30,6 +30,11 @@ try { // Try catch for if the database already exists
                 CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';
                 GRANT ALL ON `$db`.* TO '$user'@'localhost';
                 FLUSH PRIVILEGES;"); // Creates Database and also creates a user with all privileges
+
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+
     echo "Success - Database Created"; // Should display if command succeeds
 } catch (PDOException $e) { // If there is an issue, or the database is already created
     echo "Database already exists or there was an error " . $conn->errorInfo(); // Display error
@@ -52,7 +57,7 @@ try{
 
     $stmpt = $conn->exec($sql);
 
-    echo "Success - Table Created PERSON";
+    echo "\nSuccess - Table Created PERSON";
 }
 catch(PDOException $e){
     echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
