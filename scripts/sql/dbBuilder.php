@@ -45,6 +45,42 @@ try{
 
     echo "Success - Table Created PERSON";
 }
+try{
+    $sql = "CREATE TABLE EVALUATION(
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "Success - Table Created EVALUATION";
+}
+try{
+    $sql = "CREATE TABLE EVENT(
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "Success - Table Created EVENT";
+}
+try{
+    $sql = "CREATE TABLE REGISTERED REPORT(
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "Success - Table Created REGISTERED REPORT";
+}
+try{
+    $sql = "CREATE TABLE STAFF(
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "Success - Table Created STAFF";
+}
 catch(PDOException $e){
     echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
 }
