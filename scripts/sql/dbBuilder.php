@@ -46,6 +46,14 @@ try{
 
     echo "Success - Table Created PERSON";
 }
+catch(PDOException $e){
+    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+}
+
+
+
+
+
 try{
     $sql = "CREATE TABLE EVALUATION(
           
@@ -55,6 +63,10 @@ try{
 
     echo "Success - Table Created EVALUATION";
 }
+catch(PDOException $e){
+    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+}
+
 try{
     $sql = "CREATE TABLE EVENT(
           
@@ -64,6 +76,10 @@ try{
 
     echo "Success - Table Created EVENT";
 }
+catch(PDOException $e){
+    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+}
+
 try{
     $sql = "CREATE TABLE REGISTERED REPORT(
           
@@ -73,6 +89,10 @@ try{
 
     echo "Success - Table Created REGISTERED REPORT";
 }
+catch(PDOException $e){
+    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+}
+
 try{
     $sql = "CREATE TABLE STAFF(
           
