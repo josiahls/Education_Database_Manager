@@ -77,7 +77,11 @@ catch(PDOException $e){
 
 try{
     $sql = "CREATE TABLE EVENT(
-          
+          Event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(30),
+          description VARCHAR(144),
+          dateTime DATETIME(1),
+          length VARCHAR(30)
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
