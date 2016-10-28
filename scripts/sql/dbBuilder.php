@@ -39,7 +39,15 @@ try { // Try catch for if the database already exists
 try{
     $sql = "CREATE TABLE PERSON(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          firstName VARCHAR(30)
+          firstName VARCHAR(30),
+          Minit VARCHAR(1),
+          lastName VARCHAR(30),
+          adress VARCHAR(30),
+          city VARCHAR(15),
+          state VARCHAR(30),
+          zip VARCHAR(7),
+          phone VARCHAR(15),
+          email VARCHAR(40)
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
