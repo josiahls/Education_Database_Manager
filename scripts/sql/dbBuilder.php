@@ -38,7 +38,7 @@ try { // Try catch for if the database already exists
 // Create Person Table
 try{
     $sql = "CREATE TABLE PERSON(
-          id PRIMARY KEY INT AUTO_INCREMENT,
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
           firstName VARCHAR(30)
         ) "; // TODO add sql code Josiah will code the person Table
 
