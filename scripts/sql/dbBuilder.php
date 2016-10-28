@@ -35,9 +35,9 @@ try { // Try catch for if the database already exists
 
 
 
-    echo "Success - Database Created"; // Should display if command succeeds
+    echo "\nSuccess - Database Created"; // Should display if command succeeds
 } catch (PDOException $e) { // If there is an issue, or the database is already created
-    echo "Database already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nDatabase already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 // Create Person Table
@@ -60,7 +60,7 @@ try{
     echo "\nSuccess - Table Created PERSON";
 }
 catch(PDOException $e){
-    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 
@@ -74,10 +74,10 @@ try{
 
     $stmpt = $conn->exec($sql);
 
-    echo "Success - Table Created EVALUATION";
+    echo "\nSuccess - Table Created EVALUATION";
 }
 catch(PDOException $e){
-    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 try{
@@ -91,10 +91,10 @@ try{
 
     $stmpt = $conn->exec($sql);
 
-    echo "Success - Table Created EVENT";
+    echo "\nSuccess - Table Created EVENT";
 }
 catch(PDOException $e){
-    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 try{
@@ -104,10 +104,10 @@ try{
 
     $stmpt = $conn->exec($sql);
 
-    echo "Success - Table Created REGISTERED REPORT";
+    echo "\nSuccess - Table Created REGISTERED REPORT";
 }
 catch(PDOException $e){
-    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 try{
@@ -117,10 +117,10 @@ try{
 
     $stmpt = $conn->exec($sql);
 
-    echo "Success - Table Created STAFF";
+    echo "\nSuccess - Table Created STAFF";
 }
 catch(PDOException $e){
-    echo "Table already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
 }
 
 
