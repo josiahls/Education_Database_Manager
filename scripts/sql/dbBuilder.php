@@ -37,9 +37,11 @@ try { // Try catch for if the database already exists
 
 // Create Person Table
 try{
-    //$sql = "CREATE TABLE PERSON "; // TODO add sql code Josiah will code the person Table
-    echo "thing";
-    //$stmpt = $conn->exec($sql);
+    $sql = "CREATE TABLE PERSON(
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
 
     echo "Success - Table Created PERSON";
 }
