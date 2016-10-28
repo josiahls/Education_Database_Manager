@@ -16,7 +16,7 @@ $root="root"; // Establishing the DB root user and the password
 $root_password="rootpass";
 
 $user='root'; // Establishing the user and their login password
-$pass='rootpass';
+$pass='';
 $db="EducationDB"; // Name of the database
 
 $conn = new PDO("mysql:host=$host", $root, $root_password); // New PDO connection
@@ -38,7 +38,8 @@ try { // Try catch for if the database already exists
 // Create Person Table
 try{
     $sql = "CREATE TABLE PERSON(
-          
+          id PRIMARY KEY INT AUTO_INCREMENT,
+          firstName VARCHAR(30)
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
