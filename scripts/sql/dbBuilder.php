@@ -5,40 +5,45 @@
  * Date: 10/14/2016
  * Time: 11:44 AM
  *
- * TODO do this thing
- *
- *
  */
 
-$host="localhost"; // Establishing the host
+$config = parse_ini_file(dirname(__FILE__).'/..'.'/..'.'/config/my.ini'); // Finds the my.ini file
 
-$root="root"; // Establishing the DB root user and the password
-$root_password="cinder";
+$host=$config['host']; // Establishing the host
 
-$user='root'; // Establishing the user and their login password
-$pass='cinder';
-$db="educationdb"; // Name of the database
+$root=$config['root'];; // Establishing the DB root user and the password
+$root_password=$config['root_password'];;
 
-$conn = new PDO("mysql:host=$host", $root, $root_password); // New PDO connection
+$user=$config['user'];; // Establishing the user and their login password
+$password=$config['password'];;
+$db=$config['db'];; // Name of the database
+
+
 
 // Create Database
 try { // Try catch for if the database already exists
-
-
+    $conn = new PDO("mysql:host=$host", $root, $root_password); // New PDO connection
     // Create the database
     $conn->exec("CREATE DATABASE `$db`;
-                CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';
+                CREATE USER '$user'@'localhost' IDENTIFIED BY '$password';
                 GRANT ALL ON `$db`.* TO '$user'@'localhost';
                 FLUSH PRIVILEGES;"); // Creates Database and also creates a user with all privileges
 
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO("mysql:host=$host;dbname=$db", $root, $root_password); // New PDO connection
 
-
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Sets the connection to throw errors
 
     echo "\nSuccess - Database Created"; // Should display if command succeeds
+
 } catch (PDOException $e) { // If there is an issue, or the database is already created
+
+
     echo "\nDatabase already exists or there was an error " . $conn->errorInfo(); // Display error
 }
+
+$conn = new PDO("mysql:host=$host;dbname=$db", $root, $root_password); // New PDO connection
+
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Create Person Table
 try{
@@ -53,14 +58,19 @@ try{
           zip VARCHAR(7),
           phone VARCHAR(15),
           email VARCHAR(40)
-        ) "; // TODO add sql code Josiah will code the person Table
+        ) ";
 
-    $stmpt = $conn->exec($sql);
+    $stmpt = $conn->exec($sql); // Try executing the sql statement
 
-    echo "\nSuccess - Table Created PERSON";
+    echo "\nSuccess - Table Created PERSON"; // Displays if succeeded
 }
-catch(PDOException $e){
-    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
+catch(PDOException $e) {// If there is an error
+    if($e->getCode() == "42S01") { // 42S01 is an error that is thrown when the table already exists
+        echo "\nTable PERSON already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating PERSON: " . $e; // Display error
+    }
 }
 
 
@@ -69,15 +79,21 @@ catch(PDOException $e){
 
 try{
     $sql = "CREATE TABLE EVALUATION(
-          
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          answer_one VARCHAR(144)
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
 
     echo "\nSuccess - Table Created EVALUATION";
 }
-catch(PDOException $e){
-    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable EVALUATION already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating EVALUATION: " . $e; // Display error
+    }
 }
 
 try{
@@ -93,25 +109,40 @@ try{
 
     echo "\nSuccess - Table Created EVENT";
 }
-catch(PDOException $e){
-    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable EVENT already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating EVENT: " . $e; // Display error
+    }
 }
 
 try{
-    $sql = "CREATE TABLE REGISTERED REPORT(
+    $sql = "CREATE TABLE REGISTERED(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          attended BOOLEAN
           
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
 
-    echo "\nSuccess - Table Created REGISTERED REPORT";
+    echo "\nSuccess - Table Created REGISTERED";
 }
-catch(PDOException $e){
-    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable REGISTERED already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating REGISTERED: " . $e; // Display error
+    }
 }
 
 try{
     $sql = "CREATE TABLE STAFF(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          posTitle VARCHAR(45)
+          
           
         ) "; // TODO add sql code Josiah will code the person Table
 
@@ -119,8 +150,55 @@ try{
 
     echo "\nSuccess - Table Created STAFF";
 }
-catch(PDOException $e){
-    echo "\nTable already exists or there was an error " . $conn->errorInfo(); // Display error
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable STAFF already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating STAFF: " . $e; // Display error
+    }
+}
+// TODO test enum 'highestDegree' ENUM('BA', 'PHD', 'Masters', 'BS', 'BA') DEFAULT null
+try{
+    $sql = "CREATE TABLE FACULTY(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          highestDegree ENUM('BA', 'PHD', 'Masters', 'BS', 'AS') DEFAULT null
+          
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created FACULTY";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable FACULTY already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating FACULTY: " . $e; // Display error
+    }
+}
+
+try{
+    $sql = "CREATE TABLE STUDENT(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          satScore DOUBLE
+          
+          
+        ) "; // TODO add sql code Josiah will code the person Table
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created STUDENT";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable STUDENT already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating STUDENT: " . $e; // Display error
+    }
 }
 
 

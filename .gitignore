@@ -16,3 +16,4 @@ gen
 .idea/sqldialects.xml
 .idea/workspace.xml
 Education Database Manager.iml
+/config/my.ini
