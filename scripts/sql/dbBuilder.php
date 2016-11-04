@@ -19,6 +19,24 @@ $password=$config['password'];;
 $db=$config['db'];; // Name of the database
 
 
+try{
+    $conn = new PDO("mysql:host=$host;dbname=$db", $root, $root_password); // New PDO connection
+
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sql = "DROP DATABASE $db";
+
+
+    $conn->exec($sql); // Try executing the sql statement
+    echo "DB Drop Success";
+
+}
+catch(PDOException $e){
+    echo "DB Drop Failed";
+}
+
+
+
 
 // Create Database
 try { // Try catch for if the database already exists
@@ -38,7 +56,7 @@ try { // Try catch for if the database already exists
 } catch (PDOException $e) { // If there is an issue, or the database is already created
 
 
-    echo "\nDatabase already exists or there was an error " . $conn->errorInfo(); // Display error
+    echo "\nDatabase already exists or there was an error " . $e; // Display error
 }
 
 $conn = new PDO("mysql:host=$host;dbname=$db", $root, $root_password); // New PDO connection
@@ -55,9 +73,9 @@ try{
           adress VARCHAR(30),
           city VARCHAR(15),
           state VARCHAR(30),
-          zip VARCHAR(7),
-          phone VARCHAR(15),
-          email VARCHAR(40)
+          zip VARCHAR(5),
+          phone VARCHAR(13),
+          email VARCHAR(45)
         ) ";
 
     $stmpt = $conn->exec($sql); // Try executing the sql statement
@@ -80,7 +98,9 @@ catch(PDOException $e) {// If there is an error
 try{
     $sql = "CREATE TABLE EVALUATION(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          answer_one VARCHAR(144)
+          answer_one VARCHAR(144),
+          answer_two VARCHAR(144),
+          answer_three VARCHAR(144)
         ) "; // TODO add sql code Josiah will code the person Table
 
     $stmpt = $conn->exec($sql);
@@ -101,9 +121,8 @@ try{
           Event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
           name VARCHAR(30),
           description VARCHAR(144),
-          dateTime DATETIME(1),
           length VARCHAR(30)
-        ) "; // TODO add sql code Josiah will code the person Table
+        ) ";
 
     $stmpt = $conn->exec($sql);
 
@@ -121,7 +140,8 @@ catch(PDOException $e) {
 try{
     $sql = "CREATE TABLE REGISTERED(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          attended BOOLEAN
+          attended BOOLEAN,
+          date DATETIME
           
         ) "; // TODO add sql code Josiah will code the person Table
 
