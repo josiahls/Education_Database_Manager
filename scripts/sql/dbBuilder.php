@@ -63,8 +63,66 @@ $conn = new PDO("mysql:host=$host;dbname=$db", $root, $root_password); // New PD
 
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+try{// DONE
+    $sql = "CREATE TABLE MAJOR(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(45)
+        ) ";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created MAJOR";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable MAJOR already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating MAJOR: " . $e; // Display error
+    }
+}
+
+try{// DONE
+    $sql = "CREATE TABLE LOCATION(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(144)
+        ) ";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created LOCATION";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable LOCATION already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating LOCATION: " . $e; // Display error
+    }
+}
+
+try{// DONE
+    $sql = "CREATE TABLE DEPARTMENT(
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(45)
+        ) ";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created DEPARTMENT";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable DEPARTMENT already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating DEPARTMENT: " . $e; // Display error
+    }
+}
+
 // Create Person Table
-try{
+try{ // DONE
     $sql = "CREATE TABLE PERSON(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
           firstName VARCHAR(30),
@@ -75,7 +133,10 @@ try{
           state VARCHAR(30),
           zip VARCHAR(5),
           phone VARCHAR(13),
-          email VARCHAR(45)
+          email VARCHAR(45),
+          
+          deptID INTEGER,
+          FOREIGN KEY (deptID) REFERENCES DEPARTMENT(id)
         ) ";
 
     $stmpt = $conn->exec($sql); // Try executing the sql statement
@@ -91,37 +152,47 @@ catch(PDOException $e) {// If there is an error
     }
 }
 
-
-
-
-
-try{
-    $sql = "CREATE TABLE EVALUATION(
-          id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          answer_one VARCHAR(144),
-          answer_two VARCHAR(144),
-          answer_three VARCHAR(144)
-        ) "; // TODO add sql code Josiah will code the person Table
+try{ // DONE
+    $sql = "CREATE TABLE FACULTY(
+          id INTEGER AUTO_INCREMENT,
+          highestDegree ENUM('BA', 'PHD', 'Masters', 'BS', 'AS') DEFAULT null,
+          higheredDate VARCHAR(45),
+          
+          personID INTEGER,
+          
+          FOREIGN KEY (personID) REFERENCES PERSON (id),
+          
+          PRIMARY KEY (id, personID)
+          
+        ) ";
 
     $stmpt = $conn->exec($sql);
 
-    echo "\nSuccess - Table Created EVALUATION";
+    echo "\nSuccess - Table Created FACULTY";
 }
 catch(PDOException $e) {
     if($e->getCode() == "42S01") {
-        echo "\nTable EVALUATION already exists"; // Display error
+        echo "\nTable FACULTY already exists"; // Display error
     }
     else {
-        echo "\nFailed: There was an error in creating EVALUATION: " . $e; // Display error
+        echo "\nFailed: There was an error in creating FACULTY: " . $e; // Display error
     }
 }
 
-try{
+try{ // DONE
     $sql = "CREATE TABLE EVENT(
-          Event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          id INTEGER PRIMARY KEY AUTO_INCREMENT,
           name VARCHAR(30),
           description VARCHAR(144),
-          length VARCHAR(30)
+          startTime VARCHAR(30),
+          endTime VARCHAR(30),
+          
+          locationID INTEGER,
+          sponserID INTEGER,
+          
+          FOREIGN KEY (locationID) REFERENCES LOCATION(id),
+          FOREIGN KEY (sponserID) REFERENCES FACULTY(id)
+          
         ) ";
 
     $stmpt = $conn->exec($sql);
@@ -137,13 +208,22 @@ catch(PDOException $e) {
     }
 }
 
-try{
+try{ // DONE
+    // Composite key was needed for this to work
     $sql = "CREATE TABLE REGISTERED(
-          id INTEGER PRIMARY KEY AUTO_INCREMENT,
+          id INTEGER AUTO_INCREMENT,
           attended BOOLEAN,
-          date DATETIME
+          date DATETIME,
           
-        ) "; // TODO add sql code Josiah will code the person Table
+          eventID INTEGER,
+          personID INTEGER,
+          
+          FOREIGN KEY (eventID) REFERENCES EVENT(id),
+          FOREIGN KEY (personID) REFERENCES PERSON(id),
+          
+          PRIMARY KEY (id, eventID, personID) 
+          
+        ) ";
 
     $stmpt = $conn->exec($sql);
 
@@ -158,13 +238,51 @@ catch(PDOException $e) {
     }
 }
 
-try{
+try{ // DONE
+    $sql = "CREATE TABLE EVALUATION(
+          id INTEGER AUTO_INCREMENT,
+          answer_one VARCHAR(144),
+          answer_two VARCHAR(144),
+          answer_three VARCHAR(144),
+          
+          ratings ENUM ('1','2','3','4','5') DEFAULT '5',
+          
+          personID INTEGER,
+          eventID INTEGER,
+          
+          FOREIGN KEY (personID) REFERENCES REGISTERED (personID),
+          FOREIGN KEY (eventID) REFERENCES REGISTERED (eventID),
+          
+          PRIMARY KEY (id, personID, eventID)
+          
+        ) ";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created EVALUATION";
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable EVALUATION already exists"; // Display error
+    }
+    else {
+        echo "\nFailed: There was an error in creating EVALUATION: " . $e; // Display error
+    }
+}
+
+try{ // DONE
     $sql = "CREATE TABLE STAFF(
-          id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          posTitle VARCHAR(45)
+          id INTEGER AUTO_INCREMENT,
+          posTitle VARCHAR(45),
+          supervisorYorN BOOLEAN DEFAULT FALSE,
           
+          personID INTEGER,
           
-        ) "; // TODO add sql code Josiah will code the person Table
+          FOREIGN KEY (personID) REFERENCES PERSON (id),
+          
+          PRIMARY KEY (id, personID)
+          
+        ) ";
 
     $stmpt = $conn->exec($sql);
 
@@ -178,35 +296,20 @@ catch(PDOException $e) {
         echo "\nFailed: There was an error in creating STAFF: " . $e; // Display error
     }
 }
-// TODO test enum 'highestDegree' ENUM('BA', 'PHD', 'Masters', 'BS', 'BA') DEFAULT null
-try{
-    $sql = "CREATE TABLE FACULTY(
-          id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          highestDegree ENUM('BA', 'PHD', 'Masters', 'BS', 'AS') DEFAULT null
-          
-          
-        ) "; // TODO add sql code Josiah will code the person Table
 
-    $stmpt = $conn->exec($sql);
 
-    echo "\nSuccess - Table Created FACULTY";
-}
-catch(PDOException $e) {
-    if($e->getCode() == "42S01") {
-        echo "\nTable FACULTY already exists"; // Display error
-    }
-    else {
-        echo "\nFailed: There was an error in creating FACULTY: " . $e; // Display error
-    }
-}
-
-try{
+try{ // DONE
     $sql = "CREATE TABLE STUDENT(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-          satScore DOUBLE
+          satScore DOUBLE,
           
+          majorID int,
+          FOREIGN KEY (majorID) REFERENCES MAJOR(id),
           
-        ) "; // TODO add sql code Josiah will code the person Table
+          personID INTEGER,
+          FOREIGN KEY (personID) REFERENCES PERSON(id)         
+          
+        ) ";
 
     $stmpt = $conn->exec($sql);
 
@@ -220,5 +323,7 @@ catch(PDOException $e) {
         echo "\nFailed: There was an error in creating STUDENT: " . $e; // Display error
     }
 }
+
+// TODO ANDREW - calls some object to fill the database
 
 
