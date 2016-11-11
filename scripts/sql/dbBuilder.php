@@ -126,9 +126,9 @@ try{ // DONE
     $sql = "CREATE TABLE PERSON(
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
           firstName VARCHAR(30),
-          Minit VARCHAR(1),
+          middleInitial VARCHAR(1),
           lastName VARCHAR(30),
-          adress VARCHAR(30),
+          address VARCHAR(30),
           city VARCHAR(15),
           state VARCHAR(30),
           zip VARCHAR(5),
@@ -156,7 +156,7 @@ try{ // DONE
     $sql = "CREATE TABLE FACULTY(
           id INTEGER AUTO_INCREMENT,
           highestDegree ENUM('BA', 'PHD', 'Masters', 'BS', 'AS') DEFAULT null,
-          higheredDate VARCHAR(45),
+          higheredDate DATETIME NOT NULL DEFAULT NOW(),
           
           personID INTEGER,
           
@@ -184,8 +184,8 @@ try{ // DONE
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
           name VARCHAR(30),
           description VARCHAR(144),
-          startTime VARCHAR(30),
-          endTime VARCHAR(30),
+          startTime DATETIME,
+          endTime DATETIME,
           
           locationID INTEGER,
           sponserID INTEGER,
@@ -244,6 +244,8 @@ try{ // DONE
           answer_one VARCHAR(144),
           answer_two VARCHAR(144),
           answer_three VARCHAR(144),
+          
+          evaluationTime DATETIME NOT NULL DEFAULT NOW(),
           
           ratings ENUM ('1','2','3','4','5') DEFAULT '5',
           
