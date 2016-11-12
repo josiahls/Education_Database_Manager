@@ -326,6 +326,175 @@ catch(PDOException $e) {
     }
 }
 
-// TODO ANDREW - calls some object to fill the database
+/*// TODO ANDREW - calls some object to fill the database
+include("simple_html_dom.php");
+echo "<br>";
+echo "<br>";
+echo "<br>";
+//input Department
+try{ // DONE
+    $sql ="INSERT INTO department(name) VALUES ('Engineering');
+    INSERT INTO department(name) VALUES ('Business');
+    INSERT INTO department(name) VALUES ('Law');
+    INSERT INTO department(name) VALUES ('Sciences');
+    INSERT INTO department(name) VALUES ('Nursing');";
 
 
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Insert Into Department";
+}
+catch(PDOException $e) {
+    echo "\nFailed: There was an error in inputing into Departement: " . $e; // Display error
+}
+//input majors
+try{ // DONE
+    $sql = "INSERT INTO major(name) VALUES ('Accounting');
+    INSERT INTO major(name) VALUES ('Architecture');
+    INSERT INTO major(name) VALUES ('Biology');
+    INSERT INTO major(name) VALUES ('Business');
+    INSERT INTO major(name) VALUES ('Business Analytics');
+    INSERT INTO major(name) VALUES ('Chemistry');
+    INSERT INTO major(name) VALUES ('Civil Engineering');
+    INSERT INTO major(name) VALUES ('Computer Engineering');
+    INSERT INTO major(name) VALUES ('Computer Science');
+    INSERT INTO major(name) VALUES ('Criminal Justice');
+    INSERT INTO major(name) VALUES ('Electrical Engineering');
+    INSERT INTO major(name) VALUES ('Finance');
+    INSERT INTO major(name) VALUES ('Mathematics');
+    INSERT INTO major(name) VALUES ('Mechanical Engineering');
+    INSERT INTO major(name) VALUES ('Metorology');
+    INSERT INTO major(name) VALUES ('Nursing');
+    INSERT INTO major(name) VALUES ('Physics');
+    INSERT INTO major(name) VALUES ('System Engineering');";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Insert Into Major";
+}
+catch(PDOException $e) {
+    echo "\nFailed: There was an error in inputing into Major: " . $e; // Display error
+}
+//input location
+try{ // DONE
+    $sql = "INSERT INTO location(name) VALUES ('Atkins');
+    INSERT INTO location(name) VALUES ('Bioinformatics');
+    INSERT INTO location(name) VALUES ('EPIC');
+    INSERT INTO location(name) VALUES ('Belk Gym');
+    INSERT INTO location(name) VALUES ('Duke Centennial Hall');
+    INSERT INTO location(name) VALUES ('Woodward Hall');
+    INSERT INTO location(name) VALUES ('Johnson Band Center');
+    INSERT INTO location(name) VALUES ('Kulwicki Laboratory);
+    INSERT INTO location(name) VALUES ('Student Union');";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Insert Into Location";
+}
+catch(PDOException $e) {
+    echo "\nFailed: There was an error in inputing into Location: " . $e; // Display error
+}
+
+$studPop = 500;
+//input people 
+    //insert STAFF   2% of student popluation
+    $staffPop = $studPop * .02;
+   //createPerson($staffPop,"Staff",$conn);
+        $html = file_get_html("http://www.fakenamegenerator.com/gen-random-us-us.php");
+        $name = $html->find("div[class=address] h3",0)->innertext;
+        $address = $html->find("div[class=adr]",0)->innertext;
+        $email = $html->find("dl[class=dl-horizontal] dd",8)->innertext;
+        $address = preg_split('/<br[^>]*>/i', $address);
+        $city = explode(",", $address[1]);
+        $state = explode(" ", $city[1]);
+        $zip = $state[2];
+        $email = explode(" ", $email);
+        $name = explode(" ", $name);
+        $fName = $name[0];
+        $Mini = $name[1][0];
+        $lName = $name[2];
+        $phone = $html->find("dl[class=dl-horizontal] dd",3)->innertext;
+        $email = $email[0];
+        $sql = "SELECT id FROM department ORDER BY RAND() LIMIT 1;";
+       $sql .= "INSERT INTO person(firstName,Minit,lastName,adress,city,state,zip,phone,email,deptID) VALUES (". $fName . ",". $Mini . ",". $lName . ",". $address[0] . ",". $city[0] . ",". $state[1] . ",". $zip . ",". $phone . ",". $email . ",(SELECT id FROM department ORDER BY RAND() LIMIT 1));";
+         $super = array(true,false);
+            $superSelect = array_rand($super,1);
+            $positions =  array("Dean", "Administrator","Manager", "Worker");
+            $poSelect = array_rand($positions,1);
+          // $sql .= "INSERT INTO staff(posTitle,supervisorYorN,personID) VALUES (".$positions[$poSelect[0]].",".$super[$superSelect[0]].",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for staff
+    $stmpt = $conn->exec($sql);
+    //insert Faculty  10% of sutdent poplation
+    $facultyPop = $studPop * .10;
+    //createPerson($facultyPop,"Faculty",$conn);
+    //insert Student
+    //createPerson($studPop,"Student",$conn);
+//insert event
+try{ // DONE
+    $sql = "INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Job Fair','internships and full time','12:00pm','4:00pm',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Engineering Meeting','Engineering college meeting','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Sport Intrests','joinging sports','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Class Sign Up','Help with Registration','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Resume Helpter','Get help creating a killer resume','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));";
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Insert Into Event";
+}
+catch(PDOException $e) {
+    echo "\nFailed: There was an error in inputing into Event: " . $e; // Display error
+}
+//input registered
+$RegAmt = $studPop * .5;
+    for($i = 0; $i < $RegAmt; $i++){
+
+    }
+//input evaluations
+$inputAmt = $RegAmt *.25;
+    for($i = 0; $i < $inputAmt; $i++){
+
+    }
+function createPerson($pop, $type,$conn){
+    $sql = "";
+    for($i = 0; $i < $pop; $i++){
+        //get fake person here
+        $html = file_get_html("http://www.fakenamegenerator.com/gen-random-us-us.php");
+        $name = $html->find("div[class=address] h3",0)->innertext;
+        $address = $html->find("div[class=adr]",0)->innertext;
+        $email = $html->find("dl[class=dl-horizontal] dd",8)->innertext;
+        $address = preg_split('/<br[^>]*>/i', $address);
+        $city = explode(",", $address[1]);
+        $state = explode(" ", $city[1]);
+        $zip = $state[2];
+        $email = explode(" ", $email);
+        $name = explode(" ", $name);
+        $fName = $name[0];
+        $Mini = $name[1][0];
+        $lName = $name[2];
+        $phone = $html->find("dl[class=dl-horizontal] dd",3)->innertext;
+        $email = $email[0];
+        $sql .= "INSERT INTO person(firstName,Minit,lastName,adress,city,state,zip,phone,email,deptID) VALUES (". $fName . ",". $Mini . ",". $lName . ",". $address[0] . ",". $city[0] . ",". $state[1] . ",". $zip . ",". $phone . ",". $email . ",(SELECT id FROM department ORDER BY RAND() LIMIT 1));";
+        if($type == "Faculty"){
+            $highDegree = array('BA', 'PHD', 'Masters', 'BS', 'AS');
+            $randKey = array_rand($highDegree, 1);
+            $betweenDate = mt_rand(1420070400, 1451606400);
+            $hireDate = date("Y-m-d H:i:s",$int);
+            $sql .= "INSERT INTO faculty(highestDegree, higheredDate,personID) VALUES (".$highDegree[$randKey[0]].",".$hireDate.",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for faculty
+        }elseif($type == "Student"){
+            $satScore = mt_rand(800 , 1600);
+            $sql .= "INSERT INTO student(satScore, majorID, personID) VALUES (".$satScore.",(SELECT id FROM major ORDER BY RAND() LIMIT 1),(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for student
+        }elseif($type == "Staff"){
+            $super = array(true,false);
+            $superSelect = array_rand($super,1);
+            $positions =  array("Dean", "Administrator","Manager", "Worker");
+            $poSelect = array_rand($positions,1);
+            $sql .= "INSERT INTO staff(posTitle,supervisorYorN,personID) VALUES (".$positions[$poSelect[0]].",".$super[$superSelect[0]].",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for staff
+        }
+    }
+    try{
+        $stmpt = $conn->exec($sql);
+        echo "\nSuccess - Insert Into " .$type;
+    }
+    catch(PDOException $e) {
+        echo "\nFailed: There was an error in inputing into" . $type . ": " . $e; // Display error
+    }
+}*/
