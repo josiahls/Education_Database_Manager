@@ -128,7 +128,7 @@ try{ // DONE
           firstName VARCHAR(30),
           middleInitial VARCHAR(1),
           lastName VARCHAR(30),
-          address VARCHAR(30),
+          address VARCHAR(75),
           city VARCHAR(15),
           state VARCHAR(30),
           zip VARCHAR(5),
@@ -326,7 +326,7 @@ catch(PDOException $e) {
     }
 }
 
-/*// TODO ANDREW - calls some object to fill the database
+// TODO ANDREW - calls some object to fill the database
 include("simple_html_dom.php");
 echo "<br>";
 echo "<br>";
@@ -395,39 +395,17 @@ catch(PDOException $e) {
     echo "\nFailed: There was an error in inputing into Location: " . $e; // Display error
 }
 
-$studPop = 500;
+$studPop = 30;
 //input people 
     //insert STAFF   2% of student popluation
-    $staffPop = $studPop * .02;
-   //createPerson($staffPop,"Staff",$conn);
-        $html = file_get_html("http://www.fakenamegenerator.com/gen-random-us-us.php");
-        $name = $html->find("div[class=address] h3",0)->innertext;
-        $address = $html->find("div[class=adr]",0)->innertext;
-        $email = $html->find("dl[class=dl-horizontal] dd",8)->innertext;
-        $address = preg_split('/<br[^>]*>/i', $address);
-        $city = explode(",", $address[1]);
-        $state = explode(" ", $city[1]);
-        $zip = $state[2];
-        $email = explode(" ", $email);
-        $name = explode(" ", $name);
-        $fName = $name[0];
-        $Mini = $name[1][0];
-        $lName = $name[2];
-        $phone = $html->find("dl[class=dl-horizontal] dd",3)->innertext;
-        $email = $email[0];
-        $sql = "SELECT id FROM department ORDER BY RAND() LIMIT 1;";
-       $sql .= "INSERT INTO person(firstName,Minit,lastName,adress,city,state,zip,phone,email,deptID) VALUES (". $fName . ",". $Mini . ",". $lName . ",". $address[0] . ",". $city[0] . ",". $state[1] . ",". $zip . ",". $phone . ",". $email . ",(SELECT id FROM department ORDER BY RAND() LIMIT 1));";
-         $super = array(true,false);
-            $superSelect = array_rand($super,1);
-            $positions =  array("Dean", "Administrator","Manager", "Worker");
-            $poSelect = array_rand($positions,1);
-          // $sql .= "INSERT INTO staff(posTitle,supervisorYorN,personID) VALUES (".$positions[$poSelect[0]].",".$super[$superSelect[0]].",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for staff
+    $staffPop = $studPop * .10;
+    createPerson($staffPop,"Staff",$conn);
     $stmpt = $conn->exec($sql);
     //insert Faculty  10% of sutdent poplation
-    $facultyPop = $studPop * .10;
-    //createPerson($facultyPop,"Faculty",$conn);
+    $facultyPop = $studPop * .20;
+    createPerson($facultyPop,"Faculty",$conn);
     //insert Student
-    //createPerson($studPop,"Student",$conn);
+    createPerson($studPop,"Student",$conn);
 //insert event
 try{ // DONE
     $sql = "INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Job Fair','internships and full time','12:00pm','4:00pm',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
@@ -444,15 +422,35 @@ catch(PDOException $e) {
     echo "\nFailed: There was an error in inputing into Event: " . $e; // Display error
 }
 //input registered
-$RegAmt = $studPop * .5;
+/*$RegAmt = $studPop * .5;
     for($i = 0; $i < $RegAmt; $i++){
-
+        $attended = mt_rand(0,1);
+        $betweenDate = mt_rand(1420070400, 1451606400);
+        $Date = date("Y-m-d H:i:s",$betweenDate);
+        $sql = "INSERT INTO registered(attended,`date`, eventID, personID) VALUES ('".$attended."','".$Date."',(SELECT id FROM event ORDER BY RAND() LIMIT 1),(SELECT id FROM person ORDER BY RAND() LIMIT 1));";
+        try{
+            $stmpt = $conn->exec($sql);
+            echo "\nSuccess - Insert Into Registered";
+        }
+        catch(PDOException $e) {
+            echo "\nFailed: There was an error in inputing into Registered: " . $e; // Display error
+        }
     }
 //input evaluations
 $inputAmt = $RegAmt *.25;
     for($i = 0; $i < $inputAmt; $i++){
-
-    }
+        $rating = mt_rand(1,5);
+        $betweenDate = mt_rand(1420070400, 1451606400);
+        $Date = date("Y-m-d H:i:s",$betweenDate);
+        $sql = "INSERT INTO evaluation(answer_one, answer_two, answer_three, evaluationTime, ratings, personID, eventID) VALUES ('Answer One','Answer Two','Answer Three','".$Date."','".$rating."',(SELECT id FROM person ORDER BY RAND() LIMIT 1),(SELECT id FROM event ORDER BY RAND() LIMIT 1));";
+        try{
+            $stmpt = $conn->exec($sql);
+            echo "\nSuccess - Insert Into evaluation";
+        }
+        catch(PDOException $e) {
+            echo "\nFailed: There was an error in inputing into evaluation: " . $e; // Display error
+        }
+    }*/
 function createPerson($pop, $type,$conn){
     $sql = "";
     for($i = 0; $i < $pop; $i++){
@@ -461,40 +459,47 @@ function createPerson($pop, $type,$conn){
         $name = $html->find("div[class=address] h3",0)->innertext;
         $address = $html->find("div[class=adr]",0)->innertext;
         $email = $html->find("dl[class=dl-horizontal] dd",8)->innertext;
+
         $address = preg_split('/<br[^>]*>/i', $address);
         $city = explode(",", $address[1]);
         $state = explode(" ", $city[1]);
-        $zip = $state[2];
         $email = explode(" ", $email);
-        $name = explode(" ", $name);
+        $name = explode(" ", $name);    
+
+        $phone = $html->find("dl[class=dl-horizontal] dd",3)->innertext;
         $fName = $name[0];
+        $city = $city[0];
+        $zip = $state[2];
+        $state = $state[1];
         $Mini = $name[1][0];
         $lName = $name[2];
-        $phone = $html->find("dl[class=dl-horizontal] dd",3)->innertext;
         $email = $email[0];
-        $sql .= "INSERT INTO person(firstName,Minit,lastName,adress,city,state,zip,phone,email,deptID) VALUES (". $fName . ",". $Mini . ",". $lName . ",". $address[0] . ",". $city[0] . ",". $state[1] . ",". $zip . ",". $phone . ",". $email . ",(SELECT id FROM department ORDER BY RAND() LIMIT 1));";
+        $address = trim($address[0]);
+
+
+        $sql .= "INSERT INTO person(firstName,middleInitial,lastName,address,city,state,zip,phone,email,deptID) VALUES ('". $fName . "','". $Mini . "','". $lName . "','". $address . "','". $city . "','". $state . "','". $zip . "','". $phone . "','". $email . "',(SELECT id FROM department ORDER BY RAND() LIMIT 1));";
         if($type == "Faculty"){
             $highDegree = array('BA', 'PHD', 'Masters', 'BS', 'AS');
-            $randKey = array_rand($highDegree, 1);
+            $randKey = mt_rand(0, 4);
             $betweenDate = mt_rand(1420070400, 1451606400);
-            $hireDate = date("Y-m-d H:i:s",$int);
-            $sql .= "INSERT INTO faculty(highestDegree, higheredDate,personID) VALUES (".$highDegree[$randKey[0]].",".$hireDate.",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for faculty
+            $hireDate = date("Y-m-d H:i:s",$betweenDate);
+            $sql .= "INSERT INTO faculty(highestDegree, higheredDate,personID) VALUES ('".$highDegree[$randKey]."','".$hireDate."',(SELECT id FROM person WHERE firstName='". $fName ."' AND lastName='".$lName."'));"; //add insert statment into sql for faculty
         }elseif($type == "Student"){
             $satScore = mt_rand(800 , 1600);
-            $sql .= "INSERT INTO student(satScore, majorID, personID) VALUES (".$satScore.",(SELECT id FROM major ORDER BY RAND() LIMIT 1),(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for student
+            $sql .= "INSERT INTO student(satScore, majorID, personID) VALUES ('".$satScore."',(SELECT id FROM major ORDER BY RAND() LIMIT 1),(SELECT id FROM person WHERE firstName='". $fName ."' AND lastName='".$lName."'));"; //add insert statment into sql for student
         }elseif($type == "Staff"){
-            $super = array(true,false);
-            $superSelect = array_rand($super,1);
+            $superSelect = mt_rand(0,1);
             $positions =  array("Dean", "Administrator","Manager", "Worker");
             $poSelect = array_rand($positions,1);
-            $sql .= "INSERT INTO staff(posTitle,supervisorYorN,personID) VALUES (".$positions[$poSelect[0]].",".$super[$superSelect[0]].",(SELECT id FROM person WHERE firstName=". $fName ." AND Minit=".$Mini." AND lastName=".$lName."));"; //add insert statment into sql for staff
+            $sql .= "INSERT INTO staff(posTitle,supervisorYorN,personID) VALUES ('".$positions[$poSelect]."','".$superSelect."',(SELECT id FROM person WHERE firstName='". $fName ."' AND lastName='".$lName."'));"; //add insert statment into sql for staff
         }
     }
     try{
+        //echo $sql;
         $stmpt = $conn->exec($sql);
         echo "\nSuccess - Insert Into " .$type;
     }
     catch(PDOException $e) {
         echo "\nFailed: There was an error in inputing into" . $type . ": " . $e; // Display error
     }
-}*/
+}
