@@ -400,7 +400,7 @@ try{ // DONE
     INSERT INTO location(name) VALUES ('Duke Centennial Hall');
     INSERT INTO location(name) VALUES ('Woodward Hall');
     INSERT INTO location(name) VALUES ('Johnson Band Center');
-    INSERT INTO location(name) VALUES ('Kulwicki Laboratory);
+    INSERT INTO location(name) VALUES ('Kulwicki Laboratory');
     INSERT INTO location(name) VALUES ('Student Union');";
 
     $stmpt = $conn->exec($sql);
@@ -424,11 +424,11 @@ $studPop = 30;
     createPerson($studPop,"Student",$conn);
 //insert event
 try{ // DONE
-    $sql = "INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Job Fair','internships and full time','12:00pm','4:00pm',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
-    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Engineering Meeting','Engineering college meeting','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
-    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Sport Intrests','joinging sports','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
-    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Class Sign Up','Help with Registration','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
-    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Resume Helpter','Get help creating a killer resume','6:00pm','7:30p',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));";
+    $sql = "INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Job Fair','internships and full time','01-01-01T18:00:00','01-01-01T19:00:00',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Engineering Meeting','Engineering college meeting','01-01-01T18:00:00','01-01-01T19:00:00',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Sport Intrests','joinging sports','01-01-01T18:00:00','01-01-01T19:00:00',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Class Sign Up','Help with Registration','01-01-01T18:00:00','01-01-01T19:00:00',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));
+    INSERT INTO event(name, description, startTime, endTime, locationID, sponserID) VALUES ('Resume Helpter','Get help creating a killer resume','01-01-01T18:00:00','01-01-01T19:00:00',(SELECT id FROM location ORDER BY RAND() LIMIT 1),(SELECT id FROM faculty ORDER BY RAND() LIMIT 1));";
 
     $stmpt = $conn->exec($sql);
 
