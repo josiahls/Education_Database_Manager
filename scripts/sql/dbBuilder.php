@@ -326,6 +326,22 @@ catch(PDOException $e) {
     }
 }
 
+try{ // TODO Danny
+    $sql = "";// TODO danny this is a sql representing 100% sql, change to some trigger
+
+    $stmpt = $conn->exec($sql);
+
+    echo "\nSuccess - Table Created STUDENT"; // TODO danny change this to make sense
+}
+catch(PDOException $e) {
+    if($e->getCode() == "42S01") {
+        echo "\nTable STUDENT already exists"; // TODO danny change this to make sense
+    }
+    else {
+        echo "\nFailed: There was an error in creating STUDENT: " . $e; // TODO danny change this to make sense
+    }
+}
+
 // TODO ANDREW - calls some object to fill the database
 include("simple_html_dom.php");
 echo "<br>";
