@@ -326,19 +326,25 @@ catch(PDOException $e) {
     }
 }
 
-try{ // TODO Danny
-    $sql = "";// TODO danny this is a sql representing 100% sql, change to some trigger
-
+/*try{ // TODO Danny
+    $sql = "CREATE TRIGGER removeIncompleteEvaluations
+    BEFORE DELETE ON EVALUATION
+    FOR EACH ROW
+    BEGIN
+        DELETE FROM EVALUATION WHERE (answer_one == null||answer_two == null || answer_three == null)
+    END;
+    ";*/// TODO danny this is a sql representing 100% sql, change to some trigger
+//HERE IS A TRIGGER THAT REMOVES DATA FROM EVALUATION WHEN THERE IS NO DATA IN ANY GIVEN ROW
     $stmpt = $conn->exec($sql);
 
-    echo "\nSuccess - Table Created STUDENT"; // TODO danny change this to make sense
+    echo "\nTABLE: STUDENT WAS SUCCESSFULLY CREATED"; // TODO danny change this to make sense
 }
 catch(PDOException $e) {
     if($e->getCode() == "42S01") {
-        echo "\nTable STUDENT already exists"; // TODO danny change this to make sense
+        echo "\nTABLE: STUDENT already exists"; // TODO danny change this to make sense
     }
     else {
-        echo "\nFailed: There was an error in creating STUDENT: " . $e; // TODO danny change this to make sense
+        echo "\nAN ERROR HAS OCCURRED. TABLE: STUDENT WAS NOT CREATED: " . $e; // TODO danny change this to make sense
     }
 }
 
@@ -467,6 +473,7 @@ $inputAmt = $RegAmt *.25;
             echo "\nFailed: There was an error in inputing into evaluation: " . $e; // Display error
         }
     }*/
+
 function createPerson($pop, $type,$conn){
     $sql = "";
     for($i = 0; $i < $pop; $i++){
@@ -518,4 +525,5 @@ function createPerson($pop, $type,$conn){
     catch(PDOException $e) {
         echo "\nFailed: There was an error in inputing into" . $type . ": " . $e; // Display error
     }
+
 }
