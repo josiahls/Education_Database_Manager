@@ -418,7 +418,7 @@ catch(PDOException $e) {
     echo "\nFailed: There was an error in inputing into Location: " . $e; // Display error
 }
 
-$studPop = 30;
+$studPop = 85;
 //input people 
     //insert STAFF   2% of student popluation
     $staffPop = $studPop * .10;
@@ -445,35 +445,38 @@ catch(PDOException $e) {
     echo "\nFailed: There was an error in inputing into Event: " . $e; // Display error
 }
 //input registered
-/*$RegAmt = $studPop * .5;
+$RegAmt = $studPop * .50;
     for($i = 0; $i < $RegAmt; $i++){
         $attended = mt_rand(0,1);
         $betweenDate = mt_rand(1420070400, 1451606400);
         $Date = date("Y-m-d H:i:s",$betweenDate);
-        $sql = "INSERT INTO registered(attended,`date`, eventID, personID) VALUES ('".$attended."','".$Date."',(SELECT id FROM event ORDER BY RAND() LIMIT 1),(SELECT id FROM person ORDER BY RAND() LIMIT 1));";
-        try{
-            $stmpt = $conn->exec($sql);
-            echo "\nSuccess - Insert Into Registered";
-        }
-        catch(PDOException $e) {
-            echo "\nFailed: There was an error in inputing into Registered: " . $e; // Display error
-        }
+        $sql =$sql."INSERT INTO registered(attended,`date`, eventID, personID) VALUES ('".$attended."','".$Date."',(SELECT id FROM event ORDER BY RAND() LIMIT 1),(SELECT id FROM person ORDER BY RAND() LIMIT 1));";
     }
+    try{
+        $stmpt = $conn->exec($sql);
+        echo "\nSuccess - Insert Into Registered";
+    }
+    catch(PDOException $e) {
+        echo "\nFailed: There was an error in inputing into Registered: " . $e; // Display error
+    }
+    
 //input evaluations
-$inputAmt = $RegAmt *.25;
+
+$inputAmt = $RegAmt * .50;
     for($i = 0; $i < $inputAmt; $i++){
         $rating = mt_rand(1,5);
         $betweenDate = mt_rand(1420070400, 1451606400);
         $Date = date("Y-m-d H:i:s",$betweenDate);
-        $sql = "INSERT INTO evaluation(answer_one, answer_two, answer_three, evaluationTime, ratings, personID, eventID) VALUES ('Answer One','Answer Two','Answer Three','".$Date."','".$rating."',(SELECT id FROM person ORDER BY RAND() LIMIT 1),(SELECT id FROM event ORDER BY RAND() LIMIT 1));";
-        try{
-            $stmpt = $conn->exec($sql);
-            echo "\nSuccess - Insert Into evaluation";
-        }
-        catch(PDOException $e) {
-            echo "\nFailed: There was an error in inputing into evaluation: " . $e; // Display error
-        }
-    }*/
+        $registeredID = mt_rand(1, $RegAmt);
+        $sql = $sql."INSERT INTO evaluation(answer_one, answer_two, answer_three, evaluationTime, ratings, personID, eventID) VALUES ('Answer One','Answer Two','Answer Three','".$Date."','".$rating."',(SELECT personID FROM registered WHERE id='".$registeredID."'),(SELECT eventid FROM registered WHERE id='".$registeredID."'));";
+    }
+    try{
+        $stmpt = $conn->exec($sql);
+        echo "\nSuccess - Insert Into evaluation";
+    }
+    catch(PDOException $e) {
+        echo "\nFailed: There was an error in inputing into evaluation: " . $e; // Display error
+    }
 function createPerson($pop, $type,$conn){
     $sql = "";
     for($i = 0; $i < $pop; $i++){
