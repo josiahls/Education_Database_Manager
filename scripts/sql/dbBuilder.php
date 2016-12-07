@@ -326,14 +326,14 @@ catch(PDOException $e) {
     }
 }
 
-/*try{ // TODO Danny
+try{ // TODO Danny
     $sql = "CREATE TRIGGER removeIncompleteEvaluations
     BEFORE DELETE ON EVALUATION
     FOR EACH ROW
     BEGIN
         DELETE FROM EVALUATION WHERE (answer_one == null||answer_two == null || answer_three == null)
     END;
-    ";*/// TODO danny this is a sql representing 100% sql, change to some trigger
+    ";// TODO danny this is a sql representing 100% sql, change to some trigger
 //HERE IS A TRIGGER THAT REMOVES DATA FROM EVALUATION WHEN THERE IS NO DATA IN ANY GIVEN ROW
     $stmpt = $conn->exec($sql);
 
