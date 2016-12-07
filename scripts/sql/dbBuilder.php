@@ -326,8 +326,14 @@ catch(PDOException $e) {
     }
 }
 
-try{ // TODO Danny
-    $sql = "";// TODO danny this is a sql representing 100% sql, change to some trigger
+/*try{ // TODO Danny
+    $sql = "CREATE TRIGGER removeIncompleteEvaluations 
+    BEFORE DELETE ON EVALUATION
+    FOR EACH ROW 
+    BEGIN
+        DELETE FROM EVALUATION WHERE (answer_one == null||answer_two == null || answer_three == null)
+    END;
+    ";// TODO danny this is a sql representing 100% sql, change to some trigger
 
     $stmpt = $conn->exec($sql);
 
@@ -341,6 +347,7 @@ catch(PDOException $e) {
         echo "\nFailed: There was an error in creating STUDENT: " . $e; // TODO danny change this to make sense
     }
 }
+*/
 
 // TODO ANDREW - calls some object to fill the database
 include("simple_html_dom.php");
