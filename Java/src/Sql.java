@@ -10,6 +10,9 @@ public class Sql {
 	String evaluationCreate;
 	String staffCreate;
 	String studentCreate;
+	String triggerCreate;
+	String procejureCreate;
+
 	String[] depInsert = {"INSERT INTO department(name) VALUES ('Engineering');",
 			"INSERT INTO department(name) VALUES ('Business');",
 			"INSERT INTO department(name) VALUES ('Law');",
@@ -122,5 +125,20 @@ public class Sql {
 		        +"FOREIGN KEY (majorID) REFERENCES MAJOR(id),"
 		        +"personID INTEGER,"
 		        +"FOREIGN KEY (personID) REFERENCES PERSON(id))";
+		this.triggerCreate = "CREATE TRIGGER removeIncompleteEvaluation "
+				+"BEFORE DELETE ON evaluation FOR EACH ROW "
+				+"BEGIN DELETE FROM evaluation WHERE "
+				+"(answer_one = null || answer_two = null || answer_three = null); "
+				+"END";
+		this.procejureCreate = "USE `educationdb`; "
+				+"DROP procedure IF EXISTS `getLowestEval`; "
+				+"DELIMITER $$ "
+				+"USE `educationdb`$$ "
+				+"CREATE PROCEDURE `getLowestEval` () "
+				+"BEGIN "
+				+"SELECT * FROM evaluation WHERE "
+				+"(answer_one = 1||answer_two = 1 || answer_three = 1);"
+				+"END$$"
+				+"DELIMITER ;";
 	}
 }

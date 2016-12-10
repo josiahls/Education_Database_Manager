@@ -103,6 +103,7 @@ public class Insert extends Main{
 		        }
 		        connect.insert(sql);
 			} catch (IOException e) {
+				System.out.print("Insert Person Failed");
 				e.printStackTrace();
 			}
 	    }

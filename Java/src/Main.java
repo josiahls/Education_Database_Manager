@@ -32,8 +32,9 @@ public class Main {
 		//Create Student
 		TableCreate(sql.studentCreate,"Student");
 		//Create Trigger
-		
+		TableCreate(sql.studentCreate,"removeIncompleteEvaluation");
 		//Create Stored Procedure
+		TableCreate(sql.studentCreate,"getLowestEval");
 		
 		Insert in = new Insert(150);
 		
