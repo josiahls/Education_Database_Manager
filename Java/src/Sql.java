@@ -128,17 +128,8 @@ public class Sql {
 		this.triggerCreate = "CREATE TRIGGER removeIncompleteEvaluation "
 				+"BEFORE DELETE ON evaluation FOR EACH ROW "
 				+"BEGIN DELETE FROM evaluation WHERE "
-				+"(answer_one = null || answer_two = null || answer_three = null); "
+				+"(answer_one IS null || answer_two IS null || answer_three IS null); "
 				+"END";
-		this.procejureCreate = "USE `educationdb`; "
-				+"DROP procedure IF EXISTS `getLowestEval`; "
-				+"DELIMITER $$ "
-				+"USE `educationdb`$$ "
-				+"CREATE PROCEDURE `getLowestEval` () "
-				+"BEGIN "
-				+"SELECT * FROM evaluation WHERE "
-				+"(answer_one = 1||answer_two = 1 || answer_three = 1);"
-				+"END$$"
-				+"DELIMITER ;";
+		this.procejureCreate = "CREATE PROCEDURE getLowestEval() BEGIN SELECT * FROM evaluation WHERE (answer_one = 1||answer_two = 1 || answer_three = 1); END";
 	}
 }
