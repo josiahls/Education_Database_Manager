@@ -32,9 +32,9 @@ public class Main {
 		//Create Student
 		TableCreate(sql.studentCreate,"Student");
 		//Create Trigger
-		TableCreate(sql.studentCreate,"removeIncompleteEvaluation");
+		connect.insert(sql.triggerCreate);
 		//Create Stored Procedure
-		TableCreate(sql.studentCreate,"getLowestEval");
+		connect.insert(sql.procejureCreate);
 		
 		Insert in = new Insert(150);
 		
